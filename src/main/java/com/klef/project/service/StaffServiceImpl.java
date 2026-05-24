@@ -1,5 +1,6 @@
 package com.klef.project.service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -212,5 +213,25 @@ public class StaffServiceImpl implements StaffService
         orderRepository.save(order);
 
         return "Order Cancelled Successfully";
+    }
+    @Override
+    public String setExpectedDeliveryDate(int orderId, LocalDate expectedDate)
+    {
+        Order order = orderRepository.findById(orderId).orElse(null);
+
+        if(order == null)
+        {
+            return "Order Not Found";
+        }
+
+        if(order.getStatus().equalsIgnoreCase("CANCELLED"))
+        {
+            return "Cannot set delivery date for cancelled order";
+        }
+
+        order.setExpectedDeliveryDate(expectedDate);
+        orderRepository.save(order);
+
+        return "Expected Delivery Date Updated";
     }
 }

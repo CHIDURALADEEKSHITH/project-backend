@@ -27,6 +27,7 @@ public class Product
  
  private LocalDate manufactureDate;
  private LocalDate expiryDate;
+ private double discountPercentage;
 
  public int getId() {
      return id;
@@ -106,5 +107,13 @@ public class Product
 
  public void setExpiryDate(LocalDate expiryDate) {
 	this.expiryDate = expiryDate;
+ }
+
+ public double getDiscountPercentage() {
+	return discountPercentage;
+ }
+
+ public void setDiscountPercentage(double discountPercentage) {
+	this.discountPercentage = discountPercentage;
  }
 }

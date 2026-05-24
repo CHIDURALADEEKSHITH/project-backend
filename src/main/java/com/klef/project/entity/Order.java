@@ -28,6 +28,8 @@ public class Order
  private String cancelReason;
  
  private String cancelledBy;
+ 
+ private LocalDate expectedDeliveryDate;
 
  public int getId() {
      return id;
@@ -89,5 +91,13 @@ public String getCancelledBy() {
 
 public void setCancelledBy(String cancelledBy) {
 	this.cancelledBy = cancelledBy;
+}
+
+public LocalDate getExpectedDeliveryDate() {
+	return expectedDeliveryDate;
+}
+
+public void setExpectedDeliveryDate(LocalDate expectedDeliveryDate) {
+	this.expectedDeliveryDate = expectedDeliveryDate;
 }
 }

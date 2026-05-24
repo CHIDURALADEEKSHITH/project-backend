@@ -1,6 +1,7 @@
 package com.klef.project.service;
 
 import java.io.File;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -209,5 +210,46 @@ public class AdminServiceImpl implements AdminService
         orderRepository.save(order);
 
         return "Order Cancelled Successfully";
+    }
+    @Override
+    public String setExpectedDeliveryDate(int orderId, LocalDate expectedDate)
+    {
+        Order order = orderRepository.findById(orderId).orElse(null);
+
+        if(order == null)
+        {
+            return "Order Not Found";
+        }
+
+        if(order.getStatus().equalsIgnoreCase("CANCELLED"))
+        {
+            return "Cannot set delivery date for cancelled order";
+        }
+
+        order.setExpectedDeliveryDate(expectedDate);
+        orderRepository.save(order);
+
+        return "Expected Delivery Date Updated";
+    }
+    
+    @Override
+    public String updateDiscount(int productId, double discountPercentage)
+    {
+        Product product = productRepository.findById(productId).orElse(null);
+
+        if(product == null)
+        {
+            return "Product Not Found";
+        }
+
+        if(discountPercentage < 0 || discountPercentage > 100)
+        {
+            return "Discount must be between 0 and 100";
+        }
+
+        product.setDiscountPercentage(discountPercentage);
+        productRepository.save(product);
+
+        return "Discount Updated Successfully";
     }
 }

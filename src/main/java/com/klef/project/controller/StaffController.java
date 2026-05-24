@@ -1,5 +1,6 @@
 package com.klef.project.controller;
 
+import java.time.LocalDate;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,5 +75,14 @@ public class StaffController
         String reason = data.get("reason");
 
         return ResponseEntity.ok(staffService.cancelOrder(orderId, reason));
+    }
+    
+    @PostMapping("/setdeliverydate")
+    public ResponseEntity<?> setExpectedDeliveryDate(@RequestBody Map<String,String> data)
+    {
+        int orderId = Integer.parseInt(data.get("orderId"));
+        LocalDate expectedDate = LocalDate.parse(data.get("expectedDate"));
+
+        return ResponseEntity.ok(staffService.setExpectedDeliveryDate(orderId, expectedDate));
     }
 }

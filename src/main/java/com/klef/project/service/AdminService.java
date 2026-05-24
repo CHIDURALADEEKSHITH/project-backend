@@ -1,5 +1,6 @@
 package com.klef.project.service;
 
+import java.time.LocalDate;
 import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 import com.klef.project.entity.Category;
@@ -26,4 +27,6 @@ public interface AdminService
   
     public String confirmOrder(int orderId);
     public String cancelOrder(int orderId, String reason);
+    public String setExpectedDeliveryDate(int orderId, LocalDate expectedDate);
+    public String updateDiscount(int productId, double discountPercentage);
 }

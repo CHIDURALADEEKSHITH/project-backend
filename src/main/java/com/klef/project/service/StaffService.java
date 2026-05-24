@@ -1,5 +1,6 @@
 package com.klef.project.service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import com.klef.project.entity.Order;
@@ -14,4 +15,5 @@ public interface StaffService
     public String recordOfflineSale(int productId, int soldQuantity);
     public String confirmOrder(int orderId);
     public String cancelOrder(int orderId, String reason);
+    public String setExpectedDeliveryDate(int orderId, LocalDate expectedDate);
 }

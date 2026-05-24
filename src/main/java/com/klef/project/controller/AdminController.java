@@ -1,5 +1,6 @@
 package com.klef.project.controller;
 
+import java.time.LocalDate;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -106,5 +107,23 @@ public class AdminController
         String reason = data.get("reason");
 
         return ResponseEntity.ok(adminService.cancelOrder(orderId, reason));
+    }
+    
+    @PostMapping("/setdeliverydate")
+    public ResponseEntity<?> setExpectedDeliveryDate(@RequestBody Map<String,String> data)
+    {
+        int orderId = Integer.parseInt(data.get("orderId"));
+        LocalDate expectedDate = LocalDate.parse(data.get("expectedDate"));
+
+        return ResponseEntity.ok(adminService.setExpectedDeliveryDate(orderId, expectedDate));
+    }
+    
+    @PostMapping("/updatediscount")
+    public ResponseEntity<?> updateDiscount(@RequestBody Map<String,String> data)
+    {
+        int productId = Integer.parseInt(data.get("productId"));
+        double discountPercentage = Double.parseDouble(data.get("discountPercentage"));
+
+        return ResponseEntity.ok(adminService.updateDiscount(productId, discountPercentage));
     }
 }
