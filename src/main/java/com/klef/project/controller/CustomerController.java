@@ -121,4 +121,10 @@ public class CustomerController
 
         return ResponseEntity.ok(customerService.cancelOrder(orderId));
     }
+    
+    @GetMapping("/getdeliverycharge")
+    public ResponseEntity<?> getDeliveryCharge()
+    {
+        return ResponseEntity.ok(customerService.getDeliveryCharge());
+    }
 }

@@ -126,4 +126,18 @@ public class AdminController
 
         return ResponseEntity.ok(adminService.updateDiscount(productId, discountPercentage));
     }
+    
+    @PostMapping("/updatedeliverycharge")
+    public ResponseEntity<?> updateDeliveryCharge(@RequestBody Map<String,String> data)
+    {
+        double deliveryCharge = Double.parseDouble(data.get("deliveryCharge"));
+
+        return ResponseEntity.ok(adminService.updateDeliveryCharge(deliveryCharge));
+    }
+
+    @GetMapping("/getdeliverycharge")
+    public ResponseEntity<?> getDeliveryCharge()
+    {
+        return ResponseEntity.ok(adminService.getDeliveryCharge());
+    }
 }

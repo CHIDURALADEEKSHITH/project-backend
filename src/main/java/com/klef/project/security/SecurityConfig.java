@@ -37,7 +37,8 @@ public class SecurityConfig
                     "/v3/api-docs/**",
                     "/swagger-ui/**",
                     "/swagger-ui.html",
-                    "/customer/viewallproducts"
+                    "/customer/viewallproducts",
+                    "/customer/getdeliverycharge"
                 ).permitAll()
 
                 .requestMatchers("/admin/**").hasRole("ADMIN")

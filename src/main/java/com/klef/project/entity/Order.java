@@ -30,6 +30,8 @@ public class Order
  private String cancelledBy;
  
  private LocalDate expectedDeliveryDate;
+ 
+ private double deliveryCharge;
 
  public int getId() {
      return id;
@@ -99,5 +101,13 @@ public LocalDate getExpectedDeliveryDate() {
 
 public void setExpectedDeliveryDate(LocalDate expectedDeliveryDate) {
 	this.expectedDeliveryDate = expectedDeliveryDate;
+}
+
+public double getDeliveryCharge() {
+	return deliveryCharge;
+}
+
+public void setDeliveryCharge(double deliveryCharge) {
+	this.deliveryCharge = deliveryCharge;
 }
 }

@@ -29,4 +29,7 @@ public interface AdminService
     public String cancelOrder(int orderId, String reason);
     public String setExpectedDeliveryDate(int orderId, LocalDate expectedDate);
     public String updateDiscount(int productId, double discountPercentage);
+    
+    public String updateDeliveryCharge(double deliveryCharge);
+    public double getDeliveryCharge();
 }

@@ -16,6 +16,7 @@ import com.klef.project.entity.Product;
 import com.klef.project.entity.StockHistory;
 import com.klef.project.entity.User;
 import com.klef.project.repository.CartRepository;
+import com.klef.project.repository.DeliverySettingRepository;
 import com.klef.project.repository.OrderItemRepository;
 import com.klef.project.repository.OrderRepository;
 import com.klef.project.repository.PasswordResetOtpRepository;
@@ -49,6 +50,11 @@ public class CustomerServiceImpl implements CustomerService
     
     @Autowired
     private StockHistoryRepository stockHistoryRepository;
+    
+    @Autowired
+    private DeliverySettingRepository deliverySettingRepository;
+    
+    
 
     @Override
     public String registerCustomer(User user)
@@ -137,7 +143,7 @@ public class CustomerServiceImpl implements CustomerService
             return "Delivery Address Required";
         }
 
-        double totalAmount = 0;
+        double subtotal = 0;
 
         for(Cart c : cartItems)
         {
@@ -148,15 +154,25 @@ public class CustomerServiceImpl implements CustomerService
                 return "Insufficient Stock For " + product.getName();
             }
 
-            totalAmount = totalAmount + c.getTotalPrice();
+            subtotal = subtotal + c.getTotalPrice();
         }
+
+        double deliveryCharge = 50;
+
+        if(!deliverySettingRepository.findAll().isEmpty())
+        {
+            deliveryCharge = deliverySettingRepository.findAll().get(0).getDeliveryCharge();
+        }
+
+        double totalAmount = subtotal + deliveryCharge;
 
         Order order = new Order();
         order.setUser(user);
         order.setOrderDate(LocalDate.now());
+        order.setDeliveryAddress(deliveryAddress);
+        order.setDeliveryCharge(deliveryCharge);
         order.setTotalAmount(totalAmount);
         order.setStatus("PENDING");
-        order.setDeliveryAddress(deliveryAddress);
 
         orderRepository.save(order);
 
@@ -195,6 +211,7 @@ public class CustomerServiceImpl implements CustomerService
 
         return "Order Placed Successfully";
     }
+    
     @Override
     public List<Order> viewMyOrders(int userId)
     {
@@ -344,5 +361,16 @@ public class CustomerServiceImpl implements CustomerService
     public List<OrderItem> viewOrderItems(int orderId)
     {
         return orderItemRepository.findByOrderId(orderId);
+    }
+    
+    @Override
+    public double getDeliveryCharge()
+    {
+        if(deliverySettingRepository.findAll().isEmpty())
+        {
+            return 50;
+        }
+
+        return deliverySettingRepository.findAll().get(0).getDeliveryCharge();
     }
 }

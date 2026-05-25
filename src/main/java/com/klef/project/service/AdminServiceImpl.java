@@ -10,12 +10,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.klef.project.entity.Category;
+import com.klef.project.entity.DeliverySetting;
 import com.klef.project.entity.Product;
 import com.klef.project.entity.StockHistory;
 import com.klef.project.entity.User;
 import com.klef.project.entity.Order;
 import com.klef.project.entity.OrderItem;
 import com.klef.project.repository.CategoryRepository;
+import com.klef.project.repository.DeliverySettingRepository;
 import com.klef.project.repository.OrderItemRepository;
 import com.klef.project.repository.OrderRepository;
 import com.klef.project.repository.ProductRepository;
@@ -42,6 +44,9 @@ public class AdminServiceImpl implements AdminService
     
     @Autowired
     private OrderItemRepository orderItemRepository;
+    
+    @Autowired
+    private DeliverySettingRepository deliverySettingRepository;
 
     @Override
     public String addStaff(User staff) 
@@ -251,5 +256,41 @@ public class AdminServiceImpl implements AdminService
         productRepository.save(product);
 
         return "Discount Updated Successfully";
+    }
+    
+    @Override
+    public String updateDeliveryCharge(double deliveryCharge)
+    {
+        if(deliveryCharge < 0)
+        {
+            return "Delivery charge cannot be negative";
+        }
+
+        DeliverySetting setting;
+
+        if(deliverySettingRepository.findAll().isEmpty())
+        {
+            setting = new DeliverySetting();
+        }
+        else
+        {
+            setting = deliverySettingRepository.findAll().get(0);
+        }
+
+        setting.setDeliveryCharge(deliveryCharge);
+        deliverySettingRepository.save(setting);
+
+        return "Delivery Charge Updated Successfully";
+    }
+
+    @Override
+    public double getDeliveryCharge()
+    {
+        if(deliverySettingRepository.findAll().isEmpty())
+        {
+            return 50;
+        }
+
+        return deliverySettingRepository.findAll().get(0).getDeliveryCharge();
     }
 }

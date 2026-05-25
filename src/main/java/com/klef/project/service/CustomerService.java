@@ -23,4 +23,6 @@ public interface CustomerService
     public String resetPassword(String email, String newPassword);
     public List<OrderItem> viewOrderItems(int orderId);
     public String cancelOrder(int orderId);
+    
+    public double getDeliveryCharge();
 }
