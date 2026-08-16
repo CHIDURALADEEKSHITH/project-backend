@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.klef.project.entity.User;
 import com.klef.project.service.CustomerService;
+import com.klef.project.service.StaffService;
 
 @RestController
 @RequestMapping("/customer")
@@ -16,6 +17,8 @@ public class CustomerController
 {
     @Autowired
     private CustomerService customerService;
+    @Autowired
+    private StaffService staffService;
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody User user)
@@ -126,5 +129,16 @@ public class CustomerController
     public ResponseEntity<?> getDeliveryCharge()
     {
         return ResponseEntity.ok(customerService.getDeliveryCharge());
+    }
+    
+    @GetMapping("/stock-batches/{productId}")
+    public ResponseEntity<?> viewProductStockBatches(
+            @PathVariable int productId)
+    {
+        return ResponseEntity.ok(
+                customerService.viewProductStockBatches(
+                        productId
+                )
+        );
     }
 }

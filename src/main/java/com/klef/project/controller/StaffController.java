@@ -17,72 +17,168 @@ public class StaffController
     @Autowired
     private StaffService staffService;
 
+
     @GetMapping("/viewallorders")
     public ResponseEntity<?> viewAllOrders()
     {
-        return ResponseEntity.ok(staffService.viewAllOrders());
+        return ResponseEntity.ok(
+                staffService.viewAllOrders()
+        );
     }
+
 
     @PutMapping("/updateorderstatus")
-    public ResponseEntity<?> updateOrderStatus(@RequestBody Map<String,String> data)
+    public ResponseEntity<?> updateOrderStatus(
+            @RequestBody Map<String, String> data)
     {
-        int orderId = Integer.parseInt(data.get("orderId"));
-        String status = data.get("status");
+        int orderId =
+                Integer.parseInt(data.get("orderId"));
 
-        String output = staffService.updateOrderStatus(orderId, status);
+        String status =
+                data.get("status");
+
+        String output =
+                staffService.updateOrderStatus(
+                        orderId,
+                        status
+                );
 
         return ResponseEntity.ok(output);
     }
 
+
+    /*
+     * ADD STOCK
+     */
     @PutMapping("/updatestock")
-    public ResponseEntity<?> updateStock(@RequestBody Map<String,Integer> data)
+    public ResponseEntity<?> updateStock(
+            @RequestBody Map<String, String> data)
     {
-        int productId = data.get("productId");
-        int quantity = data.get("quantity");
+        int productId =
+                Integer.parseInt(
+                        data.get("productId")
+                );
 
-        String output = staffService.updateStock(productId, quantity);
+        int quantity =
+                Integer.parseInt(
+                        data.get("quantity")
+                );
+
+        LocalDate expiryDate =
+                LocalDate.parse(
+                        data.get("expiryDate")
+                );
+
+
+        String output =
+                staffService.updateStock(
+                        productId,
+                        quantity,
+                        expiryDate
+                );
+
 
         return ResponseEntity.ok(output);
     }
+
 
     @GetMapping("/viewallproducts")
     public ResponseEntity<?> viewAllProducts()
     {
-        return ResponseEntity.ok(staffService.viewAllProducts());
+        return ResponseEntity.ok(
+                staffService.viewAllProducts()
+        );
     }
-    @PostMapping("/offline-sale")
-    public ResponseEntity<?> recordOfflineSale(@RequestBody Map<String,Integer> data)
-    {
-        int productId = data.get("productId");
-        int soldQuantity = data.get("soldQuantity");
 
-        String output = staffService.recordOfflineSale(productId, soldQuantity);
+
+    /*
+     * OFFLINE SALE
+     */
+    @PostMapping("/offline-sale")
+    public ResponseEntity<?> recordOfflineSale(
+            @RequestBody Map<String, Integer> data)
+    {
+        int productId =
+                data.get("productId");
+
+        int soldQuantity =
+                data.get("soldQuantity");
+
+
+        String output =
+                staffService.recordOfflineSale(
+                        productId,
+                        soldQuantity
+                );
+
 
         return ResponseEntity.ok(output);
     }
-    
+
+
     @PostMapping("/confirmorder")
-    public ResponseEntity<?> confirmOrder(@RequestBody Map<String,Integer> data)
+    public ResponseEntity<?> confirmOrder(
+            @RequestBody Map<String, Integer> data)
     {
-        int orderId = data.get("orderId");
-        return ResponseEntity.ok(staffService.confirmOrder(orderId));
+        int orderId =
+                data.get("orderId");
+
+        return ResponseEntity.ok(
+                staffService.confirmOrder(orderId)
+        );
     }
+
 
     @PostMapping("/cancelorder")
-    public ResponseEntity<?> cancelOrder(@RequestBody Map<String,String> data)
+    public ResponseEntity<?> cancelOrder(
+            @RequestBody Map<String, String> data)
     {
-        int orderId = Integer.parseInt(data.get("orderId"));
-        String reason = data.get("reason");
+        int orderId =
+                Integer.parseInt(
+                        data.get("orderId")
+                );
 
-        return ResponseEntity.ok(staffService.cancelOrder(orderId, reason));
+        String reason =
+                data.get("reason");
+
+
+        return ResponseEntity.ok(
+                staffService.cancelOrder(
+                        orderId,
+                        reason
+                )
+        );
     }
-    
-    @PostMapping("/setdeliverydate")
-    public ResponseEntity<?> setExpectedDeliveryDate(@RequestBody Map<String,String> data)
-    {
-        int orderId = Integer.parseInt(data.get("orderId"));
-        LocalDate expectedDate = LocalDate.parse(data.get("expectedDate"));
 
-        return ResponseEntity.ok(staffService.setExpectedDeliveryDate(orderId, expectedDate));
+
+    @PostMapping("/setdeliverydate")
+    public ResponseEntity<?> setExpectedDeliveryDate(
+            @RequestBody Map<String, String> data)
+    {
+        int orderId =
+                Integer.parseInt(
+                        data.get("orderId")
+                );
+
+        LocalDate expectedDate =
+                LocalDate.parse(
+                        data.get("expectedDate")
+                );
+
+
+        return ResponseEntity.ok(
+                staffService.setExpectedDeliveryDate(
+                        orderId,
+                        expectedDate
+                )
+        );
+    }
+    @GetMapping("/stock-batches/{productId}")
+    public ResponseEntity<?> viewProductStockBatches(
+            @PathVariable int productId)
+    {
+        return ResponseEntity.ok(
+                staffService.viewProductStockBatches(productId)
+        );
     }
 }
